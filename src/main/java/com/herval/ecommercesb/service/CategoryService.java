@@ -1,12 +1,11 @@
 package com.herval.ecommercesb.service;
 
-import com.herval.ecommercesb.model.Category;
-
-import java.util.List;
+import com.herval.ecommercesb.payload.CategoryDTO;
+import com.herval.ecommercesb.payload.CategoryResponse;
 
 public interface CategoryService {
-    List<Category> getAllCategories();
-    void createCategory(Category category);
-    String deleteCategory(Long categoryId);
-    Category updateCategory(Long categoryId, Category category);
+    CategoryResponse getAllCategories();
+    CategoryDTO createCategory(CategoryDTO categoryDTO);
+    CategoryDTO deleteCategory(Long categoryId);
+    CategoryDTO updateCategory(Long categoryId, CategoryDTO categoryDTO);
 }
