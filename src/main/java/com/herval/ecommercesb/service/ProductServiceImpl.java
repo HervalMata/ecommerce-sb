@@ -57,9 +57,11 @@ public class ProductServiceImpl implements ProductService {
         if (isProductNotPresent) {
             Product product = modelMapper.map(productDTO, Product.class);
 
-            product.setImage("defaul.png");
+            product.setImage("default.png");
             product.setCategory(category);
-            double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
+            double price = product.getPrice() != null ? product.getPrice() : 0.0;
+            double discount = product.getDiscount() != null ? product.getDiscount() : 0.0;
+            double specialPrice = price - ((discount * 0.01) * price);
             product.setSpecialPrice(specialPrice);
             Product savedProduct = productRepository.save(product);
             return modelMapper.map(savedProduct, ProductDTO.class);
@@ -102,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
-        Page<Product> pageProducts = productRepository.findByCategoryOrderByPriceAsc(category, pageDetails);
+        Page<Product> pageProducts = productRepository.findByCategory(category, pageDetails);
 
         List<Product> products = pageProducts.getContent();
 
@@ -151,7 +153,7 @@ public class ProductServiceImpl implements ProductService {
         Product productFromDb = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productId));
 
-        Product product = modelMapper.map(productFromDb, Product.class);
+        Product product = modelMapper.map(productDTO, Product.class);
 
         productFromDb.setProductName(product.getProductName());
         productFromDb.setDescription(product.getDescription());
