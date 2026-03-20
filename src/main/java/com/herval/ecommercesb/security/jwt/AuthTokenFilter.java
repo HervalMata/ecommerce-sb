@@ -13,11 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Component
-public class AuthTokenFilter {
+public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -48,7 +49,7 @@ public class AuthTokenFilter {
 
     private String parseJwt(HttpServletRequest req) {
         String jwt = jwtUtils.getJwtFromCookies(req);
-        logger.debug("AuthTokenFilter parsed jwt: {}", jwt);
+        logger.debug("AuthTokenFilter parsed jwt successfully: {}", jwt != null);
         return jwt;
     }
 }
