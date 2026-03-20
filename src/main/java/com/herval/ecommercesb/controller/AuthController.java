@@ -143,7 +143,7 @@ public class AuthController {
 
     @GetMapping("/user")
     public ResponseEntity<?> getUserDetails(Authentication authentication) {
-        if (authentication != null || !(authentication.getPrincipal() instanceof  UserDetailsImpl)) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof  UserDetailsImpl)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Usuário não authenticado."));
         }
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

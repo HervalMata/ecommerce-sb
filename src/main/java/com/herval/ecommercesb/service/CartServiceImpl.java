@@ -38,6 +38,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDTO addProductToCart(Long productId, Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new APIException("A quantidade deve ser maior que zero");
+        }
         Cart cart = createCart();
 
         Product product = productRepository.findById(productId)
@@ -94,7 +97,11 @@ public class CartServiceImpl implements CartService {
             CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
 
             List<ProductDTO> products = cart.getCartItems().stream()
-                    .map(p -> modelMapper.map(p.getProduct(), ProductDTO.class)).toList();
+                    .map(p -> {
+                        ProductDTO productDTO = modelMapper.map(p, ProductDTO.class);
+                        productDTO.setQuantity(p.getQuantity());
+                        return productDTO;
+                    }).toList();
 
             cartDTO.setProducts(products);
 
@@ -155,12 +162,14 @@ public class CartServiceImpl implements CartService {
 
         if (newQuantity == 0) {
             deleteProductFromCart(productId, cartId);
+            return getCart(emailId, cartId);
         } else {
             cartItem.setProductPrice(product.getSpecialPrice());
-            cartItem.setQuantity(product.getQuantity() + quantity);
+            cartItem.setQuantity(newQuantity);
             cartItem.setDiscount(product.getDiscount());
             cart.setTotalPrice(cart.getTotalPrice() + (cartItem.getProductPrice() * quantity));
             cartRepository.save(cart);
+            cartItemRepository.save(cartItem);
         }
 
         CartItem updatedCartItem = cartItemRepository.save(cartItem);
@@ -199,8 +208,9 @@ public class CartServiceImpl implements CartService {
         return "Produto " + cartItem.getProduct().getProductName() + " removido com sucesso";
     }
 
+    @Transactional
     @Override
-    public void updateProductInCarts(Long cartId, Long productId) {
+    public void updateProductInCarts(Long productId, Long cartId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
 
@@ -219,7 +229,8 @@ public class CartServiceImpl implements CartService {
 
         cart.setTotalPrice(cartPrice + (cartItem.getProductPrice() * cartItem.getQuantity()));
 
-        cartItem = cartItemRepository.save(cartItem);
+        cartItemRepository.save(cartItem);
+        cartRepository.save(cart);
     }
 
     private Cart createCart() {
