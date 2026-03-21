@@ -41,6 +41,9 @@ public class CartController {
     public ResponseEntity<CartDTO> getCart(){
         String emailId = authUtil.loggedInEmail();
         Cart cart = cartRepository.findCartByEmail(emailId);
+        if(cart == null){
+            return ResponseEntity.notFound().build();
+        }
         Long cartId = cart.getCartId();
         CartDTO cartDTO = cartService.getCart(emailId, cartId);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
