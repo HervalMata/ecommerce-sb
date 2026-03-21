@@ -52,6 +52,8 @@ public class User {
 
     @Getter
     @Setter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     //@JoinTable(name = "user_address",
     //            joinColumns = @JoinColumn(name = "user_id"),
