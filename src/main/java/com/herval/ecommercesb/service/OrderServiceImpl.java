@@ -90,6 +90,10 @@ public class OrderServiceImpl implements OrderService {
             int quantity = item.getQuantity();
             Product product = item.getProduct();
 
+            if (product.getQuantity() < quantity) {
+                throw new APIException("Estoque insuficiente para o Produto");
+            }
+
             product.setQuantity(product.getQuantity() - quantity);
 
             productRepository.save(product);
