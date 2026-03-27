@@ -78,7 +78,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/v3/api/docs/**").permitAll()
                                 //.requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()
+                                .requestMatchers("/api/public/**").permitAll()
                                 .requestMatchers("/images/**").permitAll().anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore((Filter) authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
