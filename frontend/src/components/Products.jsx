@@ -7,7 +7,7 @@ import Filter from "./Filter.jsx";
 import useProductFilter from "./useProductFilter.jsx";
 
 const Products = () => {
-    const products = useSelector(state => state.products);
+    const products = useSelector(state => state.products.products);
     const { isLoading, errorMessage } = useSelector(state => state.errors);
     const dispatch = useDispatch();
     useProductFilter();

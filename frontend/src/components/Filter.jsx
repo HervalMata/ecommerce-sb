@@ -6,9 +6,9 @@ import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 const Filter = () => {
     const categories = [
         { categoryId: 1, categoryName: 'Laços' },
-        { categoryId: 1, categoryName: 'Tiaras' },
-        { categoryId: 1, categoryName: 'Viseiras' },
-        { categoryId: 1, categoryName: 'Faixas' },
+        { categoryId: 2, categoryName: 'Tiaras' },
+        { categoryId: 3, categoryName: 'Viseiras' },
+        { categoryId: 4, categoryName: 'Faixas' },
     ];
 
     const [searchParams] = useSearchParams();
@@ -82,7 +82,7 @@ const Filter = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="border border-gray-400 text-slate-800 rounded-md py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-[#1976D2]"
                 />
-                <FiSearch className="absolute left-3 text-slate-800 size={20}" />
+                <FiSearch className="absolute left-3 text-slate-800" size={20} />
             </div>
 
             {/* CATEGORY SELECTION */}
@@ -116,6 +116,7 @@ const Filter = () => {
                         variant="contained"
                         color="primary"
                         className="flex items-center gap-2 h-10"
+                        onClick={toggleSortOrder}
                     >
                         Filtrar Por
                         {sortOrder === "asc" ? (

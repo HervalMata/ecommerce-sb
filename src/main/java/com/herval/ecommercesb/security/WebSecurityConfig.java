@@ -85,6 +85,7 @@ public class WebSecurityConfig {
         http.headers(headers -> headers.frameOptions(
                 frameOptions -> frameOptions.sameOrigin()
         ));
+        http.cors(null);
 
         return http.build();
     }
