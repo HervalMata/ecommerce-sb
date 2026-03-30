@@ -15,7 +15,7 @@ const ProductCard = (
     }
 ) => {
     const [openProductViewModal, setOpenProductViewModal] = useState(false);
-    const [selectedViewProduct, setSelectedViewProduct] = useState("");
+    const [selectedViewProduct, setSelectedViewProduct] = useState(null);
     const btnLoader = false;
     const isAvailable = quantity && Number(quantity) > 0;
 
@@ -62,7 +62,7 @@ const ProductCard = (
                     {productName}
                 </h2>
                 <div className="min-h-20 max-h-20">
-                    <p className="test-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm">
                         {description}
                     </p>
                 </div>
@@ -84,7 +84,7 @@ const ProductCard = (
                     )}
 
                     <button
-                        disabled={isAvailable || btnLoader}
+                        disabled={!isAvailable || btnLoader}
                         onClick={() => {}}
                         className={`bg-[#BE9ECC] ${isAvailable ? "opacity-100 hover:bg-pink-500" : "opacity-70"}
                             text-white py-2 px-3 rounded-lg items-center transition-colors duration-300 w-60 flex justify-center
