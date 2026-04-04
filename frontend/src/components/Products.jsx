@@ -2,25 +2,26 @@ import {FaExclamationTriangle} from "react-icons/fa";
 import ProductCard from "./ProductCard.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {fetchProducts} from "../store/actions/index.js";
+import {fetchCategories} from "../store/actions/index.js";
 import Filter from "./Filter.jsx";
 import useProductFilter from "./useProductFilter.jsx";
 import Loader from "./Loader.jsx";
+import Paginations from "./Paginations.jsx";
 
 const Products = () => {
-    const products = useSelector(state => state.products.products);
+    const {products, categories, pagination} = useSelector(state => state.products.products);
     const { isLoading, errorMessage } = useSelector(state => state.errors);
     const dispatch = useDispatch();
     useProductFilter();
 
-    //useEffect(() => {
-    //    dispatch(fetchProducts());
-    //}, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
 
     return (
         <div className="lg:px-14 sm:px-8 px-4 py-14 2xl:w-[90%] 2xl:mx-auto">
-            <Filter />
+            <Filter categories={categories ? categories : []}/>
             {isLoading ? (
                 <Loader />
             ) : errorMessage ? (
@@ -34,6 +35,12 @@ const Products = () => {
                 <div className="min-h-[700px]">
                     <div className="pb-6 pt-14 grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-y-6 gap-x-6">
                         {products && products.map((item) => <ProductCard key={item.productId} {...item} />)}
+                    </div>
+                    <div>
+                        <Paginations
+                            numberOfPage={pagination?.totalPages}
+                            totalPages={pagination?.totalPages}
+                        />
                     </div>
                 </div>
             )}
