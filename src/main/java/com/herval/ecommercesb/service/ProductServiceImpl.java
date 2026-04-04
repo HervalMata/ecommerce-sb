@@ -221,6 +221,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private String constructImageUrl(String imageName) {
-        return imageBaseUrl.endsWith("/") ? imageBaseUrl + imageName : imageBaseUrl + "/" + imageName;
+        if (imageName == null || imageName.isBlank()) {
+            return null;
+        }
+        return imageBaseUrl.endsWith("/")
+                ? imageBaseUrl + imageName
+                : imageBaseUrl + "/" + imageName;
     }
 }
