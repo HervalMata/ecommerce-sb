@@ -1,6 +1,6 @@
 import {Swiper, SwiperSlide} from "swiper/react";
 import {bannerLists} from "../../utils/index.js";
-import {Link} from "@mui/material";
+import {Link} from "react-router-dom";
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "swiper/css/scrollbar"
@@ -16,7 +16,7 @@ const HeroBanner = () => {
         <div className="py-2 rounded-md">
             <Swiper
                 grabCursor={true}
-                autoPlay={{
+                autoplay={{
                     delay: 4000,
                     disableOnInteraction: false,
                 }}

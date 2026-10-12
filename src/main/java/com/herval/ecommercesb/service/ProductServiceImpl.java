@@ -96,7 +96,8 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + keyword.toLowerCase() + "%"));
         }
         if (category != null && !category.isEmpty()) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("category").get("categoryName"),category));
+            Long categoryId = Long.valueOf(category);
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("categoryId"),categoryId));
         }
         Page<Product> pageProducts = productRepository.findAll(spec, pageDetails);
         List<Product> products = pageProducts.getContent();

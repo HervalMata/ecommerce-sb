@@ -12,7 +12,8 @@ const ProductCard = (
         quantity,
         price,
         discount,
-        specialPrice
+        specialPrice,
+        about= false,
     }
 ) => {
     const [openProductViewModal, setOpenProductViewModal] = useState(false);
@@ -21,8 +22,10 @@ const ProductCard = (
     const isAvailable = quantity && Number(quantity) > 0;
 
     const handleViewProduct = (product) => {
-        setSelectedViewProduct(product);
-        setOpenProductViewModal(true);
+        if (!about) {
+            setSelectedViewProduct(product);
+            setOpenProductViewModal(true);
+        }
     }
 
     return (
@@ -56,7 +59,7 @@ const ProductCard = (
                         quantity,
                         price,
                         discount,
-                        specialPrice
+                        specialPrice,
                     })}}
                     className="text-lg font-semibold mb-2 cursor-pointer"
                 >
@@ -67,34 +70,36 @@ const ProductCard = (
                         {truncateText(description, 80)}
                     </p>
                 </div>
-                <div className="flex items-center justify-between">
-                    {specialPrice ? (
-                        <div className="flex flex-col">
+                {!about && (
+                    <div className="flex items-center justify-between">
+                        {specialPrice ? (
+                            <div className="flex flex-col">
                             <span className="text-gray-400 line-through">
                                 R$ {Number(price).toLocaleString("pt-BR")}
                             </span>
-                            <span className="text-xl font-bold text-slate-700">
+                                <span className="text-xl font-bold text-slate-700">
                                 R$ {Number(specialPrice).toLocaleString("pt-BR")}
                             </span>
-                        </div>
-                    ) : (
-                        <span className="text-xl font-bold text-slate-700">
+                            </div>
+                        ) : (
+                            <span className="text-xl font-bold text-slate-700">
                             {" "}
-                            R$ {Number(price).toLocaleString("pt-BR")}
+                                R$ {Number(price).toLocaleString("pt-BR")}
                         </span>
-                    )}
+                        )}
 
-                    <button
-                        disabled={!isAvailable || btnLoader}
-                        onClick={() => {}}
-                        className={`bg-[#BE9ECC] ${isAvailable ? "opacity-100 hover:bg-pink-500" : "opacity-70"}
+                        <button
+                            disabled={!isAvailable || btnLoader}
+                            onClick={() => {}}
+                            className={`bg-[#BE9ECC] ${isAvailable ? "opacity-100 hover:bg-pink-500" : "opacity-70"}
                             text-white py-2 px-3 rounded-lg items-center transition-colors duration-300 w-60 flex justify-center
                         `}
-                    >
-                        <FaShoppingCart className="mr-2" />
-                        {isAvailable ? "Adicionar para o carrinho" : "Fora de Estoque"}
-                    </button>
-                </div>
+                        >
+                            <FaShoppingCart className="mr-2" />
+                            {isAvailable ? "Adicionar para o carrinho" : "Fora de Estoque"}
+                        </button>
+                    </div>
+                )}
             </div>
             <ProductViewModal
                 open={openProductViewModal}
