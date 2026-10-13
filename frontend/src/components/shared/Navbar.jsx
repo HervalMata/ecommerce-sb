@@ -1,6 +1,6 @@
-import {Badge, Link} from "@mui/material";
+import {Badge} from "@mui/material";
 import {FaShoppingCart, FaSignInAlt, FaStore} from "react-icons/fa";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {useState} from "react";
 import {RxCross2} from "react-icons/rx";
 import {IoIosMenu} from "react-icons/io";

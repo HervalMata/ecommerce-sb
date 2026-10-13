@@ -9,7 +9,7 @@ import Loader from "../shared/Loader.jsx";
 import Paginations from "../shared/Paginations.jsx";
 
 const Products = () => {
-    const {products, categories, pagination} = useSelector(state => state.products.products);
+    const {products, categories, pagination} = useSelector(state => state.products);
     const { isLoading, errorMessage } = useSelector(state => state.errors);
     const dispatch = useDispatch();
     useProductFilter();
