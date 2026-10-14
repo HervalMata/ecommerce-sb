@@ -58,7 +58,7 @@ const About = () => {
                         <ProductCard
                             key={index}
                             image={product.image}
-                            productName={product.name}
+                            productName={product.productName}
                             description={product.description}
                             specialPrice={product.specialPrice}
                             price={product.price}
