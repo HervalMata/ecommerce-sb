@@ -98,3 +98,42 @@ export const removeFromCart = (data, toast) => (dispatch, getState) => {
     toast.success(`${data?.productName} has removed from cart`);
     localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
 }
+
+export const authenticateSignInUser = (sendData, toast, reset, navigate, setLoader) => async (dispatch) => {
+    try {
+        setLoader(true)
+        const {data} = await api.post(`/auth/signin`, sendData)
+        dispatch({ type: "LOGIN_USER", payload: data })
+        localStorage.setItem("auth", JSON.stringify(data))
+        reset()
+        toast.success(`Login successfully!`);
+        navigate("/");
+    } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || "Falha no login");
+    } finally {
+        setLoader(false)
+    }
+}
+
+export const registerNewUser = (sendData, toast, reset, navigate, setLoader) => async (dispatch) => {
+    try {
+        setLoader(true)
+        const {data} = await api.post(`/auth/signup`, sendData)
+        dispatch({ type: "LOGIN_USER", payload: data })
+        reset()
+        toast.success(data?.message || `User Registered successfully!`);
+        navigate("/login");
+    } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || error?.response?.data?.password || "Falha no cadastro");
+    } finally {
+        setLoader(false)
+    }
+}
+
+export const logoutUser = (navigate) => async (dispatch) => {
+    dispatch({ type: "LOGIN_OUT" })
+    localStorage.removeItem("auth")
+    navigate("/login");
+}
