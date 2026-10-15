@@ -25,7 +25,7 @@ export const cartReducer = (state = initialState, action) => {
                 cart: updateCart,
             }
         } else {
-            const newCart = {...state.cart, productToAdd}
+            const newCart = [...state.cart, productToAdd]
             return {
                 ...state,
                 cart: newCart

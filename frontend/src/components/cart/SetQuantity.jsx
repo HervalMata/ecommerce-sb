@@ -14,6 +14,7 @@ const SetQuantity = (
             <div className="flex md:flex-row flex-col gap-4 items-center lg:text-[22px] text-sm">
                 <button
                     disabled={handleQtyDecrease}
+                    onClick={handleQtyDecrease}
                     className={btnStyles}
                 >
                     -
@@ -21,6 +22,7 @@ const SetQuantity = (
                 <div className="text-red-500">{quantity}</div>
                 <button
                     disabled={handleQtyIncrease}
+                    onClick={handleQtyIncrease}
                     className={btnStyles}
                 >
                     +

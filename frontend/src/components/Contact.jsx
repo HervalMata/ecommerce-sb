@@ -29,7 +29,7 @@ const Contact = () => {
                             Email
                         </label>
                         <input
-                            type="text"
+                            type="email"
                             required
                             className="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none
                                          focus:ring-2 ring-pink-500"

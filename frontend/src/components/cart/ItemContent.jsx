@@ -20,7 +20,7 @@ const ItemContent = (
         cartId,
     }
 ) => {
-    const [currentQuantity, setCurrentQuantity] = useState()
+    const [currentQuantity, setCurrentQuantity] = useState(quantity)
     const dispatch = useDispatch();
 
     const handleQtyIncrease = (cartItems) => {
