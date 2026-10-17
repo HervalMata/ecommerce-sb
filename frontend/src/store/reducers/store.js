@@ -4,7 +4,7 @@ import {errorReducer} from "./errorReducer.js";
 import {cartReducer} from "./cartReducer.js";
 import {authReducer} from "./authReducer.js";
 
-const user = localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth")) : [];
+const user = localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth")) : null;
 
 const cartItems = localStorage.getItem("cartItems")
 ? JSON.parse(localStorage.getItem("cartItems")) : []

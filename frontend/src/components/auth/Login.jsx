@@ -53,7 +53,7 @@ const Login = () => {
                     <InputField
                         label="Senha"
                         required
-                        id="passwird"
+                        id="password"
                         type="password"
                         message="Senha é req1uerido"
                         placeholder="Digite sua senha"

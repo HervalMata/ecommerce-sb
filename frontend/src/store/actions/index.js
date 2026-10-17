@@ -73,9 +73,9 @@ export const increaseCartQuantity = (data, toast, currentQuantity, setCurrentQua
     const isQuantityExist = getProduct.quantity >= currentQuantity + 1
 
     if (isQuantityExist) {
-        const newQuantity = currentQuantity - 1;
+        const newQuantity = currentQuantity + 1;
         setCurrentQuantity(newQuantity);
-        dispatch({ type: "ADD_CART", payload: {...data, quantity: newQuantity + 1} });
+        dispatch({ type: "ADD_CART", payload: {...data, quantity: newQuantity} });
         localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
     } else {
         toast.error("Quantidade acima do estoque");
@@ -120,7 +120,6 @@ export const registerNewUser = (sendData, toast, reset, navigate, setLoader) => 
     try {
         setLoader(true)
         const {data} = await api.post(`/auth/signup`, sendData)
-        dispatch({ type: "LOGIN_USER", payload: data })
         reset()
         toast.success(data?.message || `User Registered successfully!`);
         navigate("/login");
@@ -136,4 +135,65 @@ export const logoutUser = (navigate) => async (dispatch) => {
     dispatch({ type: "LOGIN_OUT" })
     localStorage.removeItem("auth")
     navigate("/login");
+}
+
+export const addUpdateUserAddress = (sendData, toast, addressId, setOpenAddressModal) => async (dispatch, getState) => {
+    dispatch({ type: "BUTTON_LOADER" })
+    try {
+        if (!addressId) {
+            const { data } = await api.post(`/addresses`, sendData)
+        } else {
+            await api.put(`/addresses/${addressId}`, sendData)
+        }
+        dispatch(getUserAddress())
+        toast.success("Endereço salvo com sucesso");
+        dispatch({ type: "IS_SUCCESS" })
+    } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || "Falha ao carregar");
+        dispatch({ type: "IS_ERROR", payload: null })
+    } finally {
+        setOpenAddressModal(false)
+    }
+}
+
+export const deleteUserAddress = (toast, addressId, setOpenDeleteModal) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: "BUTTON_LOADER" })
+        await api.delete(`/addresses/${addressId}`)
+        dispatch({ type: "IS_SUCCESS" })
+        dispatch(getUserAddress())
+        dispatch(clearCheckoutAddress())
+        toast.success("Endereço removido com sucesso");
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: "IS_ERROR", payload: error?.response?.data?.message || "Algum erro ocorreu" })
+    } finally {
+        setOpenDeleteModal(false)
+    }
+}
+
+export const clearCheckoutAddress = () => {
+    return {
+        type: "REMOVE_CHECKOUT_ADDRESS"
+    }
+}
+
+export const getUserAddress = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: "IS_FETCHING" })
+        const { data } = await api.post(`/addresses`)
+        dispatch({ type: "USER_ADDRESS", payload: data })
+        dispatch({ type: "IS_SUCCESS" })
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: "IS_ERROR", payload: error?.response?.data?.message || "Falha ao carregar os endereços" })
+    }
+}
+
+export const selectUserCheckoutAddress = (address) => {
+    return {
+        type: "SELECT_CHECKOUT_ADDRESS",
+        payload: address,
+    }
 }

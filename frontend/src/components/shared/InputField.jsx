@@ -16,7 +16,7 @@ const InputField = (
     return (
         <div className="flex flex-col gap-1 w-full">
             <label
-                htmlFor="id"
+                htmlFor={id}
                 className={`${className ? className : ""} font-semibold text-sm text-slate-800`}
             >
                 {label}
@@ -33,7 +33,7 @@ const InputField = (
                     minLength: min ? { value: min, message: `Minino ${min} caracteres é requerido`} : null,
                     pattern: type === "email"
                     ?   {
-                            value: /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+com+$/,
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
                             message: "Email Invalido",
                         }
                     :   type === "url" ? {
